@@ -14,12 +14,12 @@ class GameScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 100,),
-        Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text("Score ${provider.participant['score']}", style: GoogleFonts.inter(
-              fontSize: 16, fontWeight: FontWeight.w300
-          ),),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(24),
+        //   child: Text("Score ${provider.participant['score']}", style: GoogleFonts.inter(
+        //       fontSize: 16, fontWeight: FontWeight.w300
+        //   ),),
+        // ),
         Padding(
           padding: const EdgeInsets.all(24),
           child: Row(
@@ -65,7 +65,7 @@ class GameScreen extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: () => provider.answerQuestion(context, provider.question.option2!),
-                          child: _optionWidget("${provider.question.option2}", Color(0xFF1368ce)),
+                          child: _optionWidget("${provider.question.option2}", Color(0xFFffa602)),
                         ),
                       ),
                     ],
@@ -77,14 +77,14 @@ class GameScreen extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: () => provider.answerQuestion(context, provider.question.option3!),
-                          child: _optionWidget("${provider.question.option3}", Color(0xFF1368ce)),
+                          child: _optionWidget("${provider.question.option3}", Color(0xFF26890c)),
                         ),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
                         child: InkWell(
                           onTap: () => provider.answerQuestion(context, provider.question.option4!),
-                          child: _optionWidget("${provider.question.option4}", Color(0xFF1368ce)),
+                          child: _optionWidget("${provider.question.option4}", Color(0xFF0aa3a3)),
                         ),
                       ),
                     ],

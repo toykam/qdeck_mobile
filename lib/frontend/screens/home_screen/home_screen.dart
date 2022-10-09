@@ -58,6 +58,23 @@ class HomeScreen extends StatelessWidget {
                     ),)),
                   ),
                 ),
+
+                const SizedBox(height: 30,),
+                InkWell(
+                  onTap: () => context.push("/$myDeckScreenRoute"),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 32
+                    ),
+                    margin: const EdgeInsets.symmetric(horizontal: 32),
+                    decoration: const BoxDecoration(
+                        color: Color(0xFF26890c)
+                    ),
+                    child: const Center(child: Text("My Question Decks", style: TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w700
+                    ),)),
+                  ),
+                ),
               ],
             ),
           )

@@ -26,10 +26,11 @@ class HostGameScreen extends StatelessWidget {
 
           const SizedBox(height: 5,),
           const Text("Select a Question Deck", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: 12, fontWeight: FontWeight.w200
+              fontSize: 16, fontWeight: FontWeight.w200
           ),),
 
           const SizedBox(height: 20,),
+          const SizedBox(height: 24,),
 
           Expanded(
             child: ChangeNotifierProvider(
@@ -48,17 +49,60 @@ class HostGameScreen extends StatelessWidget {
                   );
                 }
 
-                return ListView.builder(
+                return GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10, mainAxisSpacing: 10,
+                    mainAxisExtent: 150
+                  ),
                   itemCount: deckProvider.decks.length,
                   itemBuilder: (context, index) {
                     final deck = deckProvider.decks[index];
-                    return ListTile(
-                      title: Text("${deck.name}"),
-                      trailing: InkWell(
-                        onTap: () {
-                          context.push("/$manageGameScreenRoute/${deck.id}");
-                        },
-                        child: Text('Play')
+                    // return ListTile(
+                    //   title: Text("${deck.name}"),
+                    //   trailing: InkWell(
+                    //     onTap: () {
+                    //       context.push("/$manageGameScreenRoute/${deck.id}");
+                    //     },
+                    //     child: Text('Play')
+                    //   ),
+                    // );
+                    return InkWell(
+                      onTap: () {
+                        context.push("/$manageGameScreenRoute/${deck.id}");
+                      },
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.r),
+                                color: const Color(0xFF333333),
+                              ),
+                              child: Center(
+                                child: Text("QD", style: GoogleFonts.cedarvilleCursive(
+                                  fontSize: 32.sp, fontWeight: FontWeight.w900
+                                ),),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0, left: 0, right: 0,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 8
+                                ),
+                                child: Text("${deck.name}", style: GoogleFonts.abel(
+                                    fontSize: 16.sp, fontWeight: FontWeight.w900
+                                ),)
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },

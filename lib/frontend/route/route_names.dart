@@ -8,3 +8,5 @@ const homeScreenRoute = "home";
 
 const hostGameScreenRoute = "host_game";
 const manageGameScreenRoute = "manage_game";
+
+const myDeckScreenRoute = "my_deck";

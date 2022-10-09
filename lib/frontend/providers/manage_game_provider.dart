@@ -2,17 +2,20 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:khoot/backend/domain/services/i_localstorage_service.dart';
 import 'package:khoot/backend/models/entities/kahoot_session.dart';
 import 'package:khoot/backend/models/entities/qdeck.dart';
 import 'package:khoot/backend/models/entities/question_model.dart';
 import 'package:khoot/frontend/interactions/toast_alerts.dart';
 import 'package:khoot/frontend/providers/base_provider.dart';
+import 'package:khoot/service_locator.dart';
+import 'package:khoot/utils/constants.dart';
 import 'package:khoot/utils/endpoints.dart';
 import 'package:khoot/utils/socket.events.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDFmMWUwNmEyMGEyN2ZjNjY0OTBlZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwiaWF0IjoxNjY1Mjc4ODE4fQ.I2Qk1kANITBuvDVfhY4XMG8WQCHgUm7vx3qMnNZkCLE";
+// const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDFmMWUwNmEyMGEyN2ZjNjY0OTBlZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwiaWF0IjoxNjY1Mjc4ODE4fQ.I2Qk1kANITBuvDVfhY4XMG8WQCHgUm7vx3qMnNZkCLE";
 class ManageGameProvider extends BaseProvider {
 
   late String id;
@@ -39,6 +42,7 @@ class ManageGameProvider extends BaseProvider {
   void initialize() async {
     try {
       print("Connecting...");
+      final token = await getIt<ILocalStorageService>().getItem(userDataBox, userTokenKey);
       socket = IO.io(AppEndpoints.baseUrl, IO.OptionBuilder()
         .setTransports(['websocket']) // for Flutter or Dart VM
         .disableAutoConnect() // optional

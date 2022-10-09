@@ -26,8 +26,12 @@ class GameBaseScreen extends StatelessWidget {
         ),),
       ) :
         provider.kahootExists ?
-            provider.kahootEnded ? GameResultScreen() :
-                // !provider.kahootEnded && provider.seconds == 0 ? GameResultScreen() :
+            provider.kahootEnded ? GameResultScreen(
+              last: true,
+            ) :
+                provider.showLeaderboard ? GameResultScreen(
+                  last: false,
+                ) :
         (provider.joinedKahoot && !provider.kahootStarted) ? WaitingToStartScreen() :
         provider.kahootStarted ? GameScreen() : GameUsernameScreen() :
         GameCodeScreen(),

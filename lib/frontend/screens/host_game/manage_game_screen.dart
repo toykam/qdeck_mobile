@@ -22,123 +22,34 @@ class ManageGameScreen extends StatelessWidget {
           Text("Host a Game", style: GoogleFonts.montserrat(
             fontSize: 24, fontWeight: FontWeight.w700,
           ), textAlign: TextAlign.center,),
-
-          if (provider.isLoading)
-            ...[
-              Center(
-                child: CircularProgressIndicator.adaptive(),
-              )
-            ],
-
-          if (provider.isError)
-            ...[
-              Center(
-                child: Text('${provider.message}'),
-              )
-            ],
-          if (provider.isLoaded)
-            ...[
-              if (provider.gameEnded)
-                ...[
-                  const SizedBox(height: 5,),
-                  const Text("Game Result", textAlign: TextAlign.center, style: TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w200
-                  ),),
-                  const SizedBox(height: 20,),
-                  ...provider.participants.map((e) {
-                    return ListTile(
-                      title: Text(e['username'], style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w300,
-                        letterSpacing: 2
-                      ),),
-                      trailing: Text("${e['score']}", style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w600,
-                        letterSpacing: 2
-                      )),
-                    );
-                  })
-                ],
-              if (!provider.gameEnded)
-                ...[
-                  if (provider.waitingForParticipants)
-                    ...[const SizedBox(height: 5,),
-                      const Text("Waiting for participants", textAlign: TextAlign.center, style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w200
-                      ),),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (provider.isLoading)
+                    ...[
+                      const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      )
                     ],
 
-                  const SizedBox(height: 20,),
-
-                  if (provider.qDeck != null && provider.kahootSession == null)
+                  if (provider.isError)
                     ...[
-                      ...provider.qDeck!.questions!.map((e) {
-                        return ListTile(
-                          title: Text(e.question!, style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w500,
-                              letterSpacing: 2
-                          ),),
-                          subtitle: Text("Answer: ${e.answer!}", style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w300,
-                              letterSpacing: 2
-                          ),),
-                        );
-                      })
+                      Center(
+                        child: Text(provider.message),
+                      )
                     ],
 
-                  if (provider.qDeck == null)
+                  if (provider.isLoaded)
                     ...[
-                      const Center(child: CircularProgressIndicator.adaptive())
-                    ],
-
-                  if (provider.waitingForParticipants)
-                    ...[
-                      Text("Game Code: ${provider.kahootSession!.code}", style: GoogleFonts.montserrat(
-                        fontSize: 16, fontWeight: FontWeight.w600,
-                      ), textAlign: TextAlign.center,),
-                      const SizedBox(height: 10,),
-                      ...provider.participants.map((e) {
-                        return ListTile(
-                          title: Text(e['username'], style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w300,
-                              letterSpacing: 2
-                          ),),
-                        );
-                      })
-                    ],
-
-                  if (provider.gameStarted)
-                    ...[
-                      if (!provider.showLeaderboard)
+                      if (provider.gameEnded)
                         ...[
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text("Question ${provider.qn}/${provider.totalQuestion}", style: GoogleFonts.inter(
-                                      fontSize: 32, fontWeight: FontWeight.w800
-                                  ),),
-                                ),
-
-                                Text("${provider.seconds}", style: GoogleFonts.inter(
-                                    fontSize: 32, fontWeight: FontWeight.w800
-                                ),)
-                              ],
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: Text("${provider.question!.question}", style: GoogleFonts.inter(
-                                  fontSize: 24, fontWeight: FontWeight.w500
-                              ),),
-                            ),
-                          ),
-                        ],
-
-                      if (provider.showLeaderboard)
-                        ...[
+                          const SizedBox(height: 5,),
+                          const Text("Game Result", textAlign: TextAlign.center, style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w200
+                          ),),
+                          const SizedBox(height: 20,),
                           ...provider.participants.map((e) {
                             return ListTile(
                               title: Text(e['username'], style: const TextStyle(
@@ -152,11 +63,116 @@ class ManageGameScreen extends StatelessWidget {
                             );
                           })
                         ],
-                    ],
-                ],
+                      if (!provider.gameEnded)
+                        ...[
+                          if (provider.waitingForParticipants)
+                            ...[const SizedBox(height: 5,),
+                              const Text("Waiting for participants", textAlign: TextAlign.center, style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w200
+                              ),),
+                            ],
 
-              ],
-            ],
+                          const SizedBox(height: 20,),
+
+                          if (provider.qDeck != null && provider.kahootSession == null)
+                            ...[
+                              ...provider.qDeck!.questions!.map((e) {
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(e.question!, style: const TextStyle(
+                                          fontSize: 24, fontWeight: FontWeight.w400,
+                                          letterSpacing: 2
+                                      ),),
+                                      const SizedBox(height: 10,),
+                                      Text("Answer: ${e.answer!}", style: const TextStyle(
+                                          fontSize: 16, fontWeight: FontWeight.w300,
+                                          letterSpacing: 2
+                                      ),),
+                                    ],
+                                  ),
+                                );
+                              })
+                            ],
+
+                          if (provider.qDeck == null)
+                            ...[
+                              const Center(child: CircularProgressIndicator.adaptive())
+                            ],
+
+                          if (provider.waitingForParticipants)
+                            ...[
+                              Text("Game Code: ${provider.kahootSession!.code}", style: GoogleFonts.montserrat(
+                                fontSize: 16, fontWeight: FontWeight.w600,
+                              ), textAlign: TextAlign.center,),
+                              const SizedBox(height: 10,),
+                              ...provider.participants.map((e) {
+                                return ListTile(
+                                  title: Text(e['username'], style: const TextStyle(
+                                      fontSize: 24, fontWeight: FontWeight.w300,
+                                      letterSpacing: 2
+                                  ),),
+                                );
+                              })
+                            ],
+
+                          if (provider.gameStarted)
+                            ...[
+                              if (!provider.showLeaderboard)
+                                ...[
+                                  Padding(
+                                    padding: const EdgeInsets.all(24),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text("Question ${provider.qn}/${provider.totalQuestion}", style: GoogleFonts.inter(
+                                              fontSize: 32, fontWeight: FontWeight.w800
+                                          ),),
+                                        ),
+
+                                        Text("${provider.seconds}", style: GoogleFonts.inter(
+                                            fontSize: 32, fontWeight: FontWeight.w800
+                                        ),)
+                                      ],
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(24),
+                                    child: Text("${provider.question!.question}", style: GoogleFonts.inter(
+                                        fontSize: 24, fontWeight: FontWeight.w500
+                                    ),),
+                                  ),
+                                ],
+
+                              if (provider.showLeaderboard)
+                                ...[
+                                  ...provider.participants.map((e) {
+                                    return ListTile(
+                                      title: Text(e['username'], style: const TextStyle(
+                                          fontSize: 24, fontWeight: FontWeight.w300,
+                                          letterSpacing: 2
+                                      ),),
+                                      trailing: Text("${e['score']}", style: const TextStyle(
+                                          fontSize: 24, fontWeight: FontWeight.w600,
+                                          letterSpacing: 2
+                                      )),
+                                    );
+                                  })
+                                ],
+                            ],
+                        ],
+
+                    ],
+
+                ],
+              ),
+            ),
+          ),
+        ],
 
       ),
       persistentFooterButtons: [

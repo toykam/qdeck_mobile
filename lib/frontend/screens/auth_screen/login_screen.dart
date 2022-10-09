@@ -1,10 +1,64 @@
 
+import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khoot/backend/domain/services/i_localstorage_service.dart';
+import 'package:khoot/frontend/interactions/toast_alerts.dart';
+import 'package:khoot/frontend/providers/auth_provider.dart';
+import 'package:khoot/frontend/route/route_names.dart';
 import 'package:khoot/frontend/styles/colors.dart';
+import 'package:khoot/service_locator.dart';
+import 'package:khoot/utils/constants.dart';
+import 'package:khoot/utils/endpoints.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void login(BuildContext context) async {
+    try {
+      print("loading...");
+      if (emailController.text.isEmpty) {
+        ToastAlert.showErrorAlert("Please provide your email");
+      } else if (passwordController.text.isEmpty) {
+        ToastAlert.showErrorAlert("Please provide your password");
+      } else {
+        ToastAlert.showLoadingAlert("");
+        final dio = Dio();
+        final res = await dio.post(AppEndpoints.login, data: {
+          "email": emailController.text,
+          "password": passwordController.text
+        });
+
+        final token = res.data['token'];
+
+        getIt<ILocalStorageService>().setItem(userDataBox, userTokenKey, token).then((value) {
+          ToastAlert.closeAlert();
+          ToastAlert.showAlert("Login successful");
+          Provider.of<AuthProvider>(context, listen: false).initialize();
+          context.pop();
+        });
+      }
+    } on DioError catch (error) {
+      ToastAlert.closeAlert();
+      ToastAlert.showErrorAlert(error.response!.data['message']);
+    } catch (error) {
+      ToastAlert.closeAlert();
+      ToastAlert.showErrorAlert("Error: $error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +75,7 @@ class LoginScreen extends StatelessWidget {
 
           const SizedBox(height: 5,),
           const Text("Please provide your detail to continue", textAlign: TextAlign.center, style: TextStyle(
-              fontSize: 12, fontWeight: FontWeight.w200
+              fontSize: 16, fontWeight: FontWeight.w200
           ),),
           const SizedBox(height: 50,),
           Padding(
@@ -34,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                 fillColor: Colors.white, filled: true,
                 hintStyle: GoogleFonts.montserrat(
                     fontSize: 24, color: AppColors.backGroundColor.withOpacity(.5),
-                    fontWeight: FontWeight.w900
+                    fontWeight: FontWeight.w400
                 ),
                 hintText: "Email",
                 contentPadding: const EdgeInsets.only(
@@ -44,14 +98,15 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.left,
               style: GoogleFonts.montserrat(
                   fontSize: 24, color: AppColors.backGroundColor,
-                  fontWeight: FontWeight.w900
+                  fontWeight: FontWeight.w400
               ),
               keyboardType: TextInputType.name,
               cursorColor: AppColors.backGroundColor.withOpacity(.5),
+              controller: emailController
             ),
           ),
 
-          const SizedBox(height: 50,),
+          const SizedBox(height: 30,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: TextFormField(
@@ -62,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                 fillColor: Colors.white, filled: true,
                 hintStyle: GoogleFonts.montserrat(
                     fontSize: 24, color: AppColors.backGroundColor.withOpacity(.5),
-                    fontWeight: FontWeight.w900
+                    fontWeight: FontWeight.w400
                 ),
                 hintText: "Password",
                 contentPadding: const EdgeInsets.only(
@@ -72,10 +127,12 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.left,
               style: GoogleFonts.montserrat(
                   fontSize: 24, color: AppColors.backGroundColor,
-                  fontWeight: FontWeight.w900
+                  fontWeight: FontWeight.w400
               ),
               keyboardType: TextInputType.visiblePassword,
               cursorColor: AppColors.backGroundColor.withOpacity(.5),
+              obscureText: true,
+              controller: passwordController
             ),
           ),
 
@@ -85,7 +142,7 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => login(context),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                   padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
@@ -95,6 +152,22 @@ class LoginScreen extends StatelessWidget {
               child: Text("Sign In", style: TextStyle(
                   color: AppColors.backGroundColor, fontSize: 16
               ),),
+            ),
+          ),
+
+          const SizedBox(height: 10,),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                const TextSpan(text: "Already have an account? "),
+                TextSpan(
+                  text: "Register",
+                  recognizer: TapGestureRecognizer()..onTap = () {
+                    context.replace("/auth/$registerScreenRoute");
+                  }
+                ),
+              ]
             ),
           ),
 

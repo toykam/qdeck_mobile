@@ -7,7 +7,12 @@ import 'package:khoot/frontend/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class GameResultScreen extends StatelessWidget {
-  const GameResultScreen({Key? key}) : super(key: key);
+  const GameResultScreen({
+    Key? key,
+    this.last = false
+  }) : super(key: key);
+
+  final bool last;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +21,13 @@ class GameResultScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 100,),
-        Text("Game Result", style: GoogleFonts.montserrat(
-          fontSize: 24, fontWeight: FontWeight.w700,
-        ), textAlign: TextAlign.center,),
+        if (last)
+          ...[
+            Text("Game Result", style: GoogleFonts.montserrat(
+              fontSize: 24, fontWeight: FontWeight.w700,
+            ), textAlign: TextAlign.center,),
+          ],
+
         const SizedBox(height: 20,),
         Expanded(
           child: ListView.builder(
@@ -41,21 +50,25 @@ class GameResultScreen extends StatelessWidget {
 
         const SizedBox(height: 10,),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: ElevatedButton(
-            onPressed: () => context.go("/$homeScreenRoute"),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
-                    vertical: 16
-                ))
+        if (last)
+          ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: ElevatedButton(
+                onPressed: () => context.go("/$homeScreenRoute"),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 16
+                    ))
+                ),
+                child: Text("Home", style: TextStyle(
+                    color: AppColors.backGroundColor, fontSize: 16
+                ),),
+              ),
             ),
-            child: Text("Home", style: TextStyle(
-                color: AppColors.backGroundColor, fontSize: 16
-            ),),
-          ),
-        ),
+          ],
+
 
         const SizedBox(height: 20,),
       ],

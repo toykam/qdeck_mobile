@@ -19,6 +19,7 @@ class GameProvider extends BaseProvider {
   bool kahootStarted = false;
   bool kahootEnded = false;
   bool waitingForOthers = false;
+  bool showLeaderboard = false;
 
   String _code = "";
   String _username = "";
@@ -98,6 +99,12 @@ class GameProvider extends BaseProvider {
         notifyListeners();
       });
 
+      socket.on(AppSocketEvents.timeUp, (data) {
+        participants = data['participants'];
+        showLeaderboard = true;
+        notifyListeners();
+      });
+
       socket.on(AppSocketEvents.kahootEnded, (data) {
         print("Kahoot Ended $data");
         participants = data['participants'];
@@ -114,6 +121,7 @@ class GameProvider extends BaseProvider {
 
   void _setQuestion(data) {
     waitingForOthers = false;
+    showLeaderboard = false;
     question = QuestionModel.fromJson(data['question']);
     qn = data['qn'];
     totalQuestions = data['total'];
@@ -128,6 +136,7 @@ class GameProvider extends BaseProvider {
       seconds--;
       if (seconds == 0) {
         _timer?.cancel();
+        waitingForOthers = true;
       }
       notifyListeners();
     });

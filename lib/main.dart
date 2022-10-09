@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:khoot/frontend/providers/auth_provider.dart';
 import 'package:khoot/frontend/route/routes.dart';
+import 'package:khoot/service_locator.dart';
 import 'package:provider/provider.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -18,6 +19,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  setUpServiceLocator();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MultiProvider(
     providers: [

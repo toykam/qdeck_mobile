@@ -74,7 +74,7 @@ class GameProvider extends BaseProvider {
       });
 
       socket.on(AppSocketEvents.participantJoined, (data) {
-        participants.add(data['participant']);
+        participants = data['participants'];
         notifyListeners();
       });
 

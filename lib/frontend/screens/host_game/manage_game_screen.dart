@@ -76,6 +76,12 @@ class ManageGameScreen extends StatelessWidget {
 
                           if (provider.qDeck != null && provider.kahootSession == null)
                             ...[
+                              if (provider.qDeck!.questions!.isEmpty)
+                                ...[
+                                  const Center(
+                                    child: Text("This deck does not have any question"),
+                                  ),
+                                ],
                               ...provider.qDeck!.questions!.map((e) {
                                 return Container(
                                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -165,9 +171,7 @@ class ManageGameScreen extends StatelessWidget {
                                 ],
                             ],
                         ],
-
                     ],
-
                 ],
               ),
             ),
@@ -178,65 +182,69 @@ class ManageGameScreen extends StatelessWidget {
       persistentFooterButtons: [
         if (provider.isLoaded)
           ...[
-            if (!provider.gameEnded)
+            if (provider.qDeck!.questions!.isNotEmpty)
               ...[
-                if (provider.qDeck != null && provider.kahootSession == null)
+                if (!provider.gameEnded)
                   ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: ElevatedButton(
-                        onPressed: () => provider.create(),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 32
-                            ))
+                    if (provider.qDeck != null && provider.kahootSession == null)
+                      ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: ElevatedButton(
+                            onPressed: () => provider.create(),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.white),
+                                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32
+                                ))
+                            ),
+                            child: Text("Create Session", style: TextStyle(
+                                color: AppColors.backGroundColor, fontSize: 16
+                            ),),
+                          ),
                         ),
-                        child: Text("Create Session", style: TextStyle(
-                            color: AppColors.backGroundColor, fontSize: 16
-                        ),),
-                      ),
-                    ),
-                  ],
+                      ],
 
-                if (provider.kahootSession != null && !provider.gameStarted)
-                  ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: ElevatedButton(
-                        onPressed: () => provider.start(),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 32
-                            ))
+                    if (provider.kahootSession != null && !provider.gameStarted)
+                      ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: ElevatedButton(
+                            onPressed: () => provider.start(),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.white),
+                                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32
+                                ))
+                            ),
+                            child: Text("Start Game", style: TextStyle(
+                                color: AppColors.backGroundColor, fontSize: 16
+                            ),),
+                          ),
                         ),
-                        child: Text("Start Game", style: TextStyle(
-                            color: AppColors.backGroundColor, fontSize: 16
-                        ),),
-                      ),
-                    ),
-                  ],
+                      ],
 
-                if (provider.gameStarted && provider.showLeaderboard)
-                  ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: ElevatedButton(
-                        onPressed: () => provider.nextQuestion(),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 32
-                            ))
+                    if (provider.gameStarted && provider.showLeaderboard)
+                      ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: ElevatedButton(
+                            onPressed: () => provider.nextQuestion(),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.white),
+                                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32
+                                ))
+                            ),
+                            child: Text("Next Question", style: TextStyle(
+                                color: AppColors.backGroundColor, fontSize: 16
+                            ),),
+                          ),
                         ),
-                        child: Text("Next Question", style: TextStyle(
-                            color: AppColors.backGroundColor, fontSize: 16
-                        ),),
-                      ),
-                    ),
+                      ],
                   ],
               ],
+
 
             if (provider.gameEnded)
               ...[

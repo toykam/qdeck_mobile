@@ -65,7 +65,7 @@ class ManageGameProvider extends BaseProvider {
         backToError("Error $data");
       });
       socket.on(AppSocketEvents.participantJoined, (data) {
-        participants.add(data['participant']);
+        participants = data['participants'];
         notifyListeners();
       });
 

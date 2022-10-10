@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:khoot/frontend/providers/my_deck_provider.dart';
 import 'package:khoot/frontend/route/route_names.dart';
 import 'package:khoot/frontend/styles/colors.dart';
+import 'package:khoot/frontend/widgets/click_effect.dart';
 import 'package:khoot/frontend/widgets/page_header.dart';
 import 'package:provider/provider.dart';
 
@@ -120,16 +121,16 @@ class MyDeckScreen extends StatelessWidget {
                     itemCount: deckProvider.decks.length,
                     itemBuilder: (context, index) {
                       final deck = deckProvider.decks[index];
-                      return InkWell(
-                        onTap: () {
+                      return AnimatedContainerOnClicked(
+                        onClick: () {
                           context.push(
                             "/$myDeckScreenRoute/$viewQuestionDeckScreenRoute/${deck.id}"
                           );
                         },
-                        borderRadius: BorderRadius.circular(15),
+                        // borderRadius: BorderRadius.circular(15),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15)
+                            borderRadius: BorderRadius.circular(15)
                           ),
                           child: Stack(
                             children: [

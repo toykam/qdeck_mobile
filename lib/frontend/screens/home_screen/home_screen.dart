@@ -8,6 +8,7 @@ import 'package:khoot/frontend/interactions/toast_alerts.dart';
 import 'package:khoot/frontend/providers/auth_provider.dart';
 import 'package:khoot/frontend/route/route_names.dart';
 import 'package:khoot/frontend/styles/colors.dart';
+import 'package:khoot/frontend/widgets/click_effect.dart';
 import 'package:khoot/frontend/widgets/page_header.dart';
 import 'package:provider/provider.dart';
 
@@ -38,54 +39,60 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                InkWell(
-                  onTap: () => context.push("/$hostGameScreenRoute"),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 32
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 32),
+                  child: AnimatedContainerOnClicked(
+                    onClick: () => context.push("/$hostGameScreenRoute"),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 32
+                      ),
+                      decoration: const BoxDecoration(
+                          color: Color(0xFFEB670F)
+                      ),
+                      child: const Center(child: Text("Host a Game", style: TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w700
+                      ),)),
                     ),
-                    margin: const EdgeInsets.symmetric(horizontal: 32),
-                    decoration: const BoxDecoration(
-                        color: Color(0xFFEB670F)
-                    ),
-                    child: const Center(child: Text("Host a Game", style: TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w700
-                    ),)),
                   ),
                 ),
                 const SizedBox(height: 30,),
-                InkWell(
-                  onTap: () => context.push("/$gameScreenRoute"),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 32
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 32),
+                  child: AnimatedContainerOnClicked(
+                    onClick: () => context.push("/$gameScreenRoute"),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 32
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFFA602)
+                      ),
+                      child: const Center(child: Text("Join a Game", style: TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.w700
+                      ),)),
                     ),
-                    margin: const EdgeInsets.symmetric(horizontal: 32),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFA602)
-                    ),
-                    child: const Center(child: Text("Join a Game", style: TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w700
-                    ),)),
                   ),
                 ),
 
                 if (authProvider.isLoggedIn)
                   ...[
                     const SizedBox(height: 30,),
-                    InkWell(
-                      onTap: () => context.push("/$myDeckScreenRoute"),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 32),
+                      child: AnimatedContainerOnClicked(
+                        onClick: () => context.push("/$myDeckScreenRoute"),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 32
-                        ),
-                        margin: const EdgeInsets.symmetric(horizontal: 32),
-                        decoration: const BoxDecoration(
+                          ),
+                          decoration: const BoxDecoration(
                             color: Color(0xFF26890c)
+                          ),
+                          child: const Center(child: Text("My Question Decks", style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w700
+                          ),)),
                         ),
-                        child: const Center(child: Text("My Question Decks", style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w700
-                        ),)),
                       ),
                     ),
                   ],

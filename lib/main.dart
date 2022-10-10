@@ -43,10 +43,10 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          routerConfig: appRoutes,
-          // routerDelegate: appRoutes.routerDelegate,
-          // routeInformationParser: appRoutes.routeInformationParser,
-          // routeInformationProvider: appRoutes.routeInformationProvider,
+          // routerConfig: appRoutes,
+          routerDelegate: appRoutes.routerDelegate,
+          routeInformationParser: appRoutes.routeInformationParser,
+          routeInformationProvider: appRoutes.routeInformationProvider,
           title: 'QDeck',
           theme: ThemeData.dark(),
           builder: (context, child) {

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:khoot/frontend/providers/deck_provider.dart';
 import 'package:khoot/frontend/route/route_names.dart';
 import 'package:khoot/frontend/styles/colors.dart';
+import 'package:khoot/frontend/widgets/click_effect.dart';
 import 'package:provider/provider.dart';
 
 class HostGameScreen extends StatelessWidget {
@@ -104,11 +105,11 @@ class HostGameScreen extends StatelessWidget {
                     itemCount: deckProvider.decksToDisplay.length,
                     itemBuilder: (context, index) {
                       final deck = deckProvider.decksToDisplay[index];
-                      return InkWell(
-                        onTap: () {
+                      return AnimatedContainerOnClicked(
+                        onClick: () {
                           context.push("/$manageGameScreenRoute/${deck.id}");
                         },
-                        borderRadius: BorderRadius.circular(15),
+                        // borderRadius: BorderRadius.circular(15),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15)

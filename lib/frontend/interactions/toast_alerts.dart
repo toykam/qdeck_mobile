@@ -140,7 +140,8 @@ class ToastAlert {
       return AlertDialog(
         backgroundColor: Colors.white,
         content: Text(message, style: TextStyle(
-            fontSize: 16.sp, fontWeight: FontWeight.w500
+          fontSize: 16.sp, fontWeight: FontWeight.w500,
+          color: AppColors.primaryColor
         ), textAlign: TextAlign.center,),
         actions: [
           ElevatedButton(

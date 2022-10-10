@@ -8,9 +8,23 @@ class AuthProvider extends BaseProvider {
   bool isLoggedIn = false;
 
   void initialize() async {
-    final token = await getIt<ILocalStorageService>().getItem(userDataBox, userTokenKey, defaultValue: null);
-    isLoggedIn = token != null;
-    notifyListeners();
+    try {
+      final token = await getIt<ILocalStorageService>().getItem(userDataBox, userTokenKey, defaultValue: null);
+      isLoggedIn = token != null;
+      backToLoaded();
+    } catch (error) {
+      backToError("Error: $error");
+    }
+  }
+
+  void logout() async {
+    try {
+      backToLoading();
+      await getIt<ILocalStorageService>().setItem(userDataBox, userTokenKey, null);
+      initialize();
+    } catch (error) {
+      backToError("Error: $error");
+    }
   }
 
   AuthProvider() {

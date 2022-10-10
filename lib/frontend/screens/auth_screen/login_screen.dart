@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:khoot/backend/domain/services/i_localstorage_service.dart';
 import 'package:khoot/frontend/interactions/toast_alerts.dart';
 import 'package:khoot/frontend/providers/auth_provider.dart';
+import 'package:khoot/frontend/providers/my_deck_provider.dart';
 import 'package:khoot/frontend/route/route_names.dart';
 import 'package:khoot/frontend/styles/colors.dart';
 import 'package:khoot/service_locator.dart';
@@ -48,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ToastAlert.closeAlert();
           ToastAlert.showAlert("Login successful");
           Provider.of<AuthProvider>(context, listen: false).initialize();
+          Provider.of<MyDeckProvider>(context, listen: false).initialize();
           context.pop();
         });
       }
@@ -162,9 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const TextSpan(text: "Already have an account? "),
                 TextSpan(
-                  text: "Register",
+                  text: "Sign Up",
                   recognizer: TapGestureRecognizer()..onTap = () {
-                    context.replace("/auth/$registerScreenRoute");
+                    context.push("/auth/$registerScreenRoute");
                   }
                 ),
               ]

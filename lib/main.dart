@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:khoot/frontend/providers/auth_provider.dart';
+import 'package:khoot/frontend/providers/my_deck_provider.dart';
 import 'package:khoot/frontend/route/routes.dart';
 import 'package:khoot/service_locator.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,8 @@ void main() {
   HttpOverrides.global = MyHttpOverrides();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => AuthProvider())
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => MyDeckProvider()),
     ],
     child: MyApp(),
   ));

@@ -38,19 +38,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         ToastAlert.showLoadingAlert("");
         final dio = Dio();
-        final res = await dio.post(AppEndpoints.login, data: {
+        final res = await dio.post(AppEndpoints.register, data: {
           "email": emailController.text,
           "name": nameController.text,
           "password": passwordController.text
         });
 
-        final token = res.data['token'];
+        // final token = res.data['token'];
         ToastAlert.closeAlert();
-        getIt<ILocalStorageService>().setItem(userDataBox, userTokenKey, token).then((value) {
-          ToastAlert.showAlert("Login successful");
-          Provider.of<AuthProvider>(context, listen: false).initialize();
-          context.pop();
-        });
+        ToastAlert.showAlert("Registration successful");
+        // Provider.of<AuthProvider>(context, listen: false).initialize();
+        context.pop();
       }
     } on DioError catch (error) {
       ToastAlert.closeAlert();
@@ -70,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         children: [
 
           const SizedBox(height: 100,),
-          Text("Welcome back", style: GoogleFonts.montserrat(
+          Text("Welcome", style: GoogleFonts.montserrat(
             fontSize: 24, fontWeight: FontWeight.w700,
           ), textAlign: TextAlign.center,),
 
@@ -179,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       vertical: 16
                   ))
               ),
-              child: Text("Sign In", style: TextStyle(
+              child: Text("Sign Up", style: TextStyle(
                   color: AppColors.backGroundColor, fontSize: 16
               ),),
             ),
@@ -192,7 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 const TextSpan(text: "Already have an account? "),
                 TextSpan(
-                  text: "Login",
+                  text: "Sign In",
                   recognizer: TapGestureRecognizer()..onTap = () {
                      context.replace("/auth/$loginScreenRoute");
                   }

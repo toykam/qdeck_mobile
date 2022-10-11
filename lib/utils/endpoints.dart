@@ -14,7 +14,6 @@ class AppEndpoints {
   static String updateQuestion(String id, String qid) => "$baseUrl${"/user/qdeck/$id/questions/$qid"}";
   static String deleteQuestion(String id, String qid) => "$baseUrl${"/user/qdeck/$id/questions/$qid"}";
 
-
   static String login = "$baseUrl${"/user/auth/login"}";
   static String register = "$baseUrl${"/user/auth/register"}";
 }

@@ -27,6 +27,7 @@ class MyDeckProvider extends BaseProvider {
         }
       ));
       decks = List.from(response.data['data']).map((e) => Qdeck.fromJson(e)).toList();
+      decksToDisplay = decks;
       backToLoaded();
     } catch (error) {
       backToError("Error $error");
